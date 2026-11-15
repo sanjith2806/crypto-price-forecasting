@@ -19,6 +19,23 @@ The lowest RMSE improved on persistence by about **0.015% for BTC** and **0.010%
 
 ![Held-out RMSE change and net backtest returns for Bitcoin and Ethereum](results/summary.svg)
 
+## Did the extra complexity pay off?
+
+**The naïve forecast is the best default for this experiment.** BTC ARIMA reduced RMSE by $0.30 while increasing MAE by $1.11. ETH LSTM reduced RMSE by $0.01 and MAE by $0.10. The models' gains were small relative to both baseline error and the uncertainty across held-out days.
+
+| Asset | Model | RMSE change vs naïve | 95% interval for RMSE change | Median wall time |
+| --- | --- | ---: | ---: | ---: |
+| BTC-USD | ARIMA | −0.015% | [−0.696%, +0.663%] | 2.13 ms |
+| BTC-USD | LSTM | +0.048% | [−0.640%, +0.690%] | 5.82 s |
+| ETH-USD | ARIMA | +0.530% | [−0.327%, +1.395%] | 2.29 ms |
+| ETH-USD | LSTM | −0.010% | [−0.223%, +0.199%] | 4.16 s |
+
+Negative changes indicate lower forecast error. The intervals use 10,000 paired circular block resamples of the held-out daily errors with 14-day blocks. All intervals span zero with 7-, 14- and 30-day blocks. These are exploratory intervals conditional on the fitted models and this test period.
+
+Wall time covers validation-based model selection, refitting and all 769 held-out forecasts per asset. The table reports the median of three runs on an Apple Silicon CPU. The naïve forecast has no fitting step and took about 0.05 ms per asset (median of 101 runs). Timings exclude imports, data loading, shared features, evaluation and plotting. ARIMA was inexpensive and its coefficients make it a useful diagnostic comparator. LSTM took roughly 1,800–2,700 times as long as ARIMA for this workload. Its additional flexibility yielded no clear accuracy gain in this experiment.
+
+The trading results lead to the same conclusion. The fitted signals hit 48.5–49.5% close-to-close directional accuracy across the four model–asset pairs, against 50.7–51.1% for an always-up call. All four strategies lost money at 10 basis points per fill. The smaller losses against the always-long strategy came with fewer trades, and the flat naïve signal returned 0%.
+
 ## Direction and backtest
 
 The forecasts predict whether the next close will rise or fall versus the previous close. The simulated trade uses the next daily open and close, which gives the order a price interval after the signal has been computed. A positive forecast goes long for that session. Other signals sit in cash. Fees are **10 basis points per fill**, paid at entry and exit. The always-long benchmark trades the same open-to-close interval every day.
@@ -56,12 +73,14 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest -v
 python forecast.py
+python evaluate_complexity.py
 ```
 
 The default command fetches Yahoo Finance data. To use the original analysis exports offline, pass their directory instead. The loader accepts `btc_processed.csv` and `eth_processed.csv` or the corresponding `BTC_USD_daily.csv` and `ETH_USD_daily.csv` raw exports. The published run used the processed exports and excluded the final snapshot day.
 
 ```bash
 python forecast.py --data-dir /path/to/analysis/data/processed
+python evaluate_complexity.py --data-dir /path/to/analysis/data/processed
 python forecast.py --data-dir /path/to/analysis/data/processed --fee-bps 0 --output-dir results-zero-fees
 ```
 
@@ -69,6 +88,7 @@ python forecast.py --data-dir /path/to/analysis/data/processed --fee-bps 0 --out
 | --- | --- |
 | [forecast.py](forecast.py) | Data loading, features, held-out evaluation and backtest |
 | [models.py](models.py) | ARIMA and PyTorch LSTM training and prediction |
+| [evaluate_complexity.py](evaluate_complexity.py) | CPU timing and paired block-bootstrap intervals for RMSE changes |
 | [forecast_metrics.csv](results/forecast_metrics.csv) | Held-out RMSE and MAE |
 | [backtest_metrics.csv](results/backtest_metrics.csv) | Direction, trading performance and sample counts by regime |
 | [model_settings.json](results/model_settings.json) | Selected settings, ARIMA coefficients and validation scores |
