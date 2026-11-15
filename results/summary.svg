@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 945 410" role="img" aria-labelledby="title desc">
+<title id="title">BTC and ETH forecast and backtest results</title>
+<desc id="desc">Forecast RMSE changes are below one percent. ARIMA and LSTM strategies lose money after fees on both assets.</desc>
+<rect width="945" height="410" rx="18" fill="#f6f8fb"/>
+<g font-family="system-ui, sans-serif" font-size="14" fill="#202b39">
+<text x="38" y="45" font-size="26" font-weight="700">Bitcoin and Ethereum · Held-out results</text>
+<text x="38" y="70" fill="#566477">769 days per asset · 1 Jan 2024 to 7 Feb 2026 · 10 bps per fill</text>
+<text x="199" y="107" font-weight="650">RMSE change vs naïve</text>
+<text x="620" y="107" font-weight="650">Compounded net return</text>
+<path d="M210 119v245M840 119v245" stroke="#aab4c1" stroke-dasharray="3 4"/>
+<path d="M38 225h866" stroke="#d2d9e3"/>
+<text x="38" y="140">BTC · ARIMA</text><rect x="205.20833385004292" y="129" width="4.7916661499570745" height="12" rx="2" fill="#007d75"/><text x="220" y="140" fill="#007d75">-0.015%</text><rect x="763.065882588" y="129" width="76.934117412" height="12" rx="2" fill="#007d75"/><text x="850" y="140" fill="#007d75">-28.5%</text>
+<text x="38" y="181">BTC · LSTM</text><rect x="210" y="170" width="15.70186212890734" height="12" rx="2" fill="#734a9d"/><text x="235.70186212890735" y="181" fill="#734a9d">+0.048%</text><rect x="804.745122087" y="170" width="35.254877913" height="12" rx="2" fill="#734a9d"/><text x="850" y="181" fill="#734a9d">-13.1%</text>
+<text x="38" y="222">BTC · Always long</text><text x="220" y="222" fill="#6f7b87">—</text><rect x="665.3220358169999" y="211" width="174.67796418300003" height="12" rx="2" fill="#b16b1d"/><text x="850" y="222" fill="#b16b1d">-64.7%</text>
+<text x="38" y="275">ETH · ARIMA</text><rect x="210" y="264" width="175.03275855917533" height="12" rx="2" fill="#007d75"/><text x="395.03275855917536" y="275" fill="#007d75">+0.530%</text><rect x="638.836935942" y="264" width="201.163064058" height="12" rx="2" fill="#007d75"/><text x="850" y="275" fill="#007d75">-74.5%</text>
+<text x="38" y="316">ETH · LSTM</text><rect x="206.73854683692076" y="305" width="3.261453163079242" height="12" rx="2" fill="#734a9d"/><text x="220" y="316" fill="#734a9d">-0.010%</text><rect x="640.2577607220001" y="305" width="199.742239278" height="12" rx="2" fill="#734a9d"/><text x="850" y="316" fill="#734a9d">-74.0%</text>
+<text x="38" y="357">ETH · Always long</text><text x="220" y="357" fill="#6f7b87">—</text><rect x="623.165519613" y="346" width="216.834480387" height="12" rx="2" fill="#b16b1d"/><text x="850" y="357" fill="#b16b1d">-80.3%</text>
+<text x="38" y="386" fill="#566477" font-size="13">Always long enters at the open and exits at the close each day.</text>
+</g>
+</svg>
